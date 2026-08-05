@@ -1,0 +1,116 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww27200\viewh15740\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 HQ router konfig\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Router>enable\
+Router#configure terminal \
+Router(config)#hostname HQ_router\
+HQ_router(config)#\
+HQ_router(config)#interface GigabitEthernet0/0\
+HQ_router(config-if)#ip address 192.168.11.1 255.255.255.0\
+HQ_router(config-if)#description to_sw11_iroda\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 HQ_router(config-if)#no shutdown \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf0 HQ_router(config-if)#exit\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 HQ_router(config)#\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 HQ_router(config)#interface GigabitEthernet0/1.12\
+HQ_router(config-subif)#\
+HQ_router(config-subif)#description VLAN12_bolt\
+HQ_router(config-subif)#encapsulation dot1Q 12\
+HQ_router(config-subif)#ip address 192.168.12.1 255.255.255.0\
+HQ_router(config-subif)#no shutdown \
+HQ_router(config-subif)#exit\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 HQ_router(config)#\outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 HQ_router(config)#interface GigabitEthernet0/1.13\
+HQ_router(config-subif)#\
+HQ_router(config-subif)#description VLAN13_raktar\
+HQ_router(config-subif)#encapsulation dot1Q 13\
+HQ_router(config-subif)#ip address 192.168.13.1 255.255.255.0\
+HQ_router(config-subif)#no shutdown \
+HQ_router(config-subif)#exit\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 HQ_router(config)#\
+HQ_router(config)#ip dhcp excluded-address 192.168.11.1 192.168.11.10\
+HQ_router(config)#ip dhcp excluded-address 192.168.12.1 192.168.12.10\
+HQ_router(config)#ip dhcp excluded-address 192.168.13.1 192.168.13.10\
+HQ_router(config)#\outl0\strokewidth0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 HQ_router(config)#ip dhcp pool HQ_iroda_pool \
+HQ_router(dhcp-config)#network 192.168.11.0 255.255.255.0\
+HQ_router(dhcp-config)#default-router 192.168.11.1\
+HQ_router(dhcp-config)#exit\
+HQ_router(config)#\
+\
+HQ sw11 konfig\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+Switch>\
+Switch>enable\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 Switch#configure terminal\
+Switch(config)\outl0\strokewidth0 #hostname SW11_iroda\outl0\strokewidth0 \strokec2 \
+SW11_iroda(config)#\
+SW11_iroda(config)#interface vlan 1\
+SW11_iroda(config-if)#ip address 192.168.11.2 255.255.255.0\
+SW11_iroda(config-if)#no shutdown \
+SW11_iroda(config)#\
+SW11_iroda(config)#ip default-gateway 192.168.11.1\
+\
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \
+HQ SW12 bolt, rakt\'e1r switch konfig:\
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 Switch>\
+Switch>enable\
+Switch#configure terminal\
+Switch(config)#hostname SW12_bolt_raktar\
+SW12_bolt_raktar(config)#\
+\
+SW12_bolt_raktar(config)#vlan 12\
+SW12_bolt_raktar(config-vlan)#name bolt\
+SW12_bolt_raktar(config-vlan)#exit\
+SW12_bolt_raktar(config)#vlan 13\
+SW12_bolt_raktar(config-vlan)#name raktar\
+SW12_bolt_raktar(config-vlan)#exit\
+SW12_bolt_raktar(config)#\
+\
+SW12_bolt_raktar(config)#interface GigabitEthernet0/1\
+SW12_bolt_raktar(config-if)#switchport mode trunk\
+switchport trunk allowed vlan 12,13\
+SW12_bolt_raktar(config-if)#switchport trunk allowed vlan 12,13\
+SW12_bolt_raktar(config-if)# no shutdown\
+SW12_bolt_raktar(config-if)#exit\
+\
+SW12_bolt_raktar(config)#interface range FastEthernet0/1-12\
+SW12_bolt_raktar(config-if-range)#switchport mode access\
+SW12_bolt_raktar(config-if-range)#switchport access vlan 12\
+SW12_bolt_raktar(config-if-range)#no shutdown\
+SW12_bolt_raktar(config-if-range)#exit\
+SW12_bolt_raktar(config)#interface range FastEthernet0/13-24\
+SW12_bolt_raktar(config-if-range)#switchport access vlan 13\
+SW12_bolt_raktar(config-if-range)#switchport mode access\
+SW12_bolt_raktar(config-if-range)#switchport access vlan 13\
+SW12_bolt_raktar(config-if-range)#exit\
+SW12_bolt_raktar(config)#\outl0\strokewidth0 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \outl0\strokewidth0 \strokec2 SW12_bolt_raktar(config)#exit\
+SW12_bolt_raktar#\
+SW12_bolt_raktar#copy running-config startup-config \
+SW12_bolt_raktar#\
+}
