@@ -1,0 +1,133 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname HQ_router
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.11.1 192.168.11.10
+ip dhcp excluded-address 192.168.12.1 192.168.12.10
+ip dhcp excluded-address 192.168.13.1 192.168.13.10
+!
+ip dhcp pool iroda_pool
+ network 192.168.11.0 255.255.255.0
+ default-router 192.168.11.1
+ dns-server 192.168.10.20
+ip dhcp pool bolt_pool
+ network 192.168.12.0 255.255.255.0
+ default-router 192.168.12.1
+ dns-server 192.168.10.20
+ip dhcp pool raktar_pool
+ network 192.168.13.0 255.255.255.0
+ default-router 192.168.13.1
+ dns-server 192.168.10.20
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524V0K3-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description to_ASA
+ ip address 10.20.20.2 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ description to_sw10_trunk
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.10
+ description VLAN10_mgmt
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/1.11
+ description VLAN11_iroda
+ encapsulation dot1Q 11
+ ip address 192.168.11.1 255.255.255.0
+!
+interface GigabitEthernet0/1.12
+ description VLAN12_bolt
+ encapsulation dot1Q 12
+ ip address 192.168.12.1 255.255.255.0
+!
+interface GigabitEthernet0/1.13
+ description VLAN13_raktar
+ encapsulation dot1Q 13
+ ip address 192.168.13.1 255.255.255.0
+!
+interface Serial0/0/0
+ ip address 10.10.10.1 255.255.255.252
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 10.10.20.1 255.255.255.252
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ log-adjacency-changes
+ network 10.10.10.0 0.0.0.3 area 0
+ network 10.20.20.0 0.0.0.3 area 0
+ network 10.10.20.0 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.11.0 0.0.0.255 area 0
+ network 192.168.12.0 0.0.0.255 area 0
+ network 192.168.13.0 0.0.0.255 area 0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
