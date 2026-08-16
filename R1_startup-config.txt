@@ -25,6 +25,7 @@ ip dhcp pool raktar_pool
  network 192.168.13.0 255.255.255.0
  default-router 192.168.13.1
  dns-server 192.168.10.20
+ip dhcp pool iroda_poo
 !
 !
 !
@@ -57,7 +58,7 @@ spanning-tree mode pvst
 !
 interface GigabitEthernet0/0
  description to_ASA
- ip address 10.20.20.2 255.255.255.252
+ ip address 10.20.0.2 255.255.255.252
  duplex auto
  speed auto
 !
@@ -109,6 +110,9 @@ router ospf 1
  network 192.168.11.0 0.0.0.255 area 0
  network 192.168.12.0 0.0.0.255 area 0
  network 192.168.13.0 0.0.0.255 area 0
+ network 10.20.0.0 0.0.0.3 area 0
+!
+router rip
 !
 ip classless
 !
