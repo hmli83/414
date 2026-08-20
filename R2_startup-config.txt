@@ -1,0 +1,92 @@
+Moha_router#show run
+Building configuration...
+
+Current configuration : 1256 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Moha_router
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.21.1 192.168.21.10
+!
+ip dhcp pool Moha_bolt_pool
+ network 192.168.21.0 255.255.255.0
+ default-router 192.168.21.1
+!
+!
+!
+
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524PFFY-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ description to_sw21_bolt
+ ip address 192.168.21.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.10.2 255.255.255.252
+!
+interface Serial0/0/1
+ ip address 10.10.30.1 255.255.255.252
+!
+interface Serial0/1/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial0/1/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 2.2.2.2
+ log-adjacency-changes
+ network 10.10.10.0 0.0.0.3 area 0
+ network 10.10.30.0 0.0.0.3 area 0
+ network 192.168.21.0 0.0.0.255 area 0
+
+
+
