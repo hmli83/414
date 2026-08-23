@@ -19,6 +19,7 @@ ip dhcp excluded-address 192.168.31.1 192.168.31.10
 !
 ip dhcp pool Sziget_bolt_pool
  network 192.168.31.0 255.255.255.0
+ dns-server 192.168.10.20
  default-router 192.168.31.1
 !
 !

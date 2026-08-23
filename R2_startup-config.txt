@@ -17,6 +17,7 @@ ip dhcp excluded-address 192.168.21.1 192.168.21.10
 !
 ip dhcp pool Moha_bolt_pool
  network 192.168.21.0 255.255.255.0
+ dns-server 192.168.10.20
  default-router 192.168.21.1
 !
 !
