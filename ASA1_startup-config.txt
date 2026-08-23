@@ -1,8 +1,8 @@
 : Saved
-: Written by enable_15 at 00:33:56 UTC Mar 1 1993
-: Call-home enabled from prompt by enable_15 at 00:33:56 UTC Mar 1 1993
+: Written by enable_15 at 00:07:41 UTC Mar 1 1993
+: Call-home enabled from prompt by enable_15 at 00:07:41 UTC Mar 1 1993
 !
-hostname ciscoasa
+hostname homeoffice
 names
 !
 interface Ethernet0/0
@@ -37,12 +37,24 @@ interface Vlan1
 interface Vlan2
  nameif outside
  security-level 0
- ip address dhcp
+ ip address 203.0.113.3 255.255.255.0
 !
 !
+route outside 0.0.0.0 0.0.0.0 203.0.113.1 1
+!
+access-list VPN-NAT extended permit ip 192.168.88.0 255.255.255.0 10.10.0.0 255.255.0.0
+access-list VPN-NAT extended permit ip 192.168.88.0 255.255.255.0 192.168.0.0 255.255.224.0
+access-list OUTSIDE-IN extended permit ip 10.10.0.0 255.255.0.0 192.168.88.0 255.255.255.0
+access-list OUTSIDE-IN extended permit ip 192.168.0.0 255.255.224.0 192.168.88.0 255.255.255.0
+access-list OUTSIDE-IN extended permit icmp 203.0.113.0 255.255.255.0 any
+access-list OUTSIDE-IN extended permit udp 203.0.113.0 255.255.255.0 any eq isakmp
+access-list OUTSIDE-IN extended permit udp 203.0.113.0 255.255.255.0 any eq non500-isakmp
+access-list OUTSIDE-IN extended permit ip 203.0.113.0 255.255.255.0 any
+access-list VPN-ACL extended permit ip 192.168.88.0 255.255.255.0 10.10.0.0 255.255.0.0
+access-list VPN-ACL extended permit ip 192.168.88.0 255.255.255.0 192.168.0.0 255.255.224.0
 !
 !
-!
+access-group OUTSIDE-IN in interface outside
 !
 !
 !
@@ -51,13 +63,24 @@ interface Vlan2
 telnet timeout 5
 ssh timeout 5
 !
-dhcpd auto_config outside
-!
 dhcpd address 192.168.88.100-192.168.88.130 inside
 dhcpd lease 86400 interface inside
 dhcpd enable inside
 !
 !
+crypto ipsec ikev1 transform-set VPN-SET esp-aes esp-sha-hmac
 !
+crypto map VPN-MAP 10 match address VPN-ACL
+crypto map VPN-MAP 10 set peer 203.0.113.2 
+crypto map VPN-MAP 10 set ikev1 transform-set VPN-SET 
+crypto map VPN-MAP interface outside
+crypto ikev1 enable outside
+crypto ikev1 policy 10
+ encr aes
+ authentication pre-share
+ group 2
 !
+tunnel-group 203.0.113.2 type ipsec-l2l
+tunnel-group 203.0.113.2 ipsec-attributes
+ ikev1 pre-shared-key VPN123456
 !
