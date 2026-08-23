@@ -1,6 +1,6 @@
 : Saved
-: Written by enable_15 at 00:07:44 UTC Mar 1 1993
-: Call-home enabled from prompt by enable_15 at 00:07:44 UTC Mar 1 1993
+: Written by enable_15 at 00:15:27 UTC Mar 1 1993
+: Call-home enabled from prompt by enable_15 at 00:15:27 UTC Mar 1 1993
 !
 hostname pecshq
 names
@@ -51,7 +51,6 @@ access-list OUTSIDE-IN extended permit ip 192.168.88.0 255.255.255.0 192.168.0.0
 access-list OUTSIDE-IN extended permit ip 192.168.88.0 255.255.255.0 10.10.0.0 255.255.0.0
 access-list OUTSIDE-IN extended permit icmp 203.0.113.0 255.255.255.0 any
 access-list OUTSIDE-IN extended permit udp 203.0.113.0 255.255.255.0 any eq isakmp
-access-list OUTSIDE-IN extended permit udp 203.0.113.0 255.255.255.0 any eq non500-isakmp
 access-list OUTSIDE-IN extended permit ip 203.0.113.0 255.255.255.0 any
 access-list VPN-ACL extended permit ip 10.10.0.0 255.255.0.0 192.168.88.0 255.255.255.0
 access-list VPN-ACL extended permit ip 192.168.0.0 255.255.224.0 192.168.88.0 255.255.255.0
