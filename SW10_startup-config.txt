@@ -9,6 +9,11 @@ hostname SW10_core
 !
 !
 ptp clock transparent domain 0 profile default
+ip ssh version 2
+ip domain-name SW10_core
+!
+username admin secret 5 $1$mERr$4dpRATIgxQacPVK0CfNV4/
+username backup secret 5 $1$mERr$RchIbJiXmCXFtFBZll50l/
 !
 !
 !
@@ -42,7 +47,7 @@ interface Vlan1
  shutdown
 !
 interface Vlan10
- ip address 192.168.10.11 255.255.255.0
+ ip address 192.168.10.10 255.255.255.0
 !
 ip default-gateway 192.168.10.1
 !
@@ -50,9 +55,11 @@ ip default-gateway 192.168.10.1
 !
 !
 line con 0
+ login local
 !
 line vty 0 4
- login
+ login local
+ transport input ssh
 line vty 5 15
  login
 !

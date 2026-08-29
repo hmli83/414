@@ -8,6 +8,11 @@ hostname SW11_iroda
 !
 !
 !
+ip ssh version 1
+ip domain-name SW11_iroda
+!
+username admin secret 5 $1$mERr$4dpRATIgxQacPVK0CfNV4/
+username backup secret 5 $1$mERr$RchIbJiXmCXFtFBZll50l/
 !
 !
 !
@@ -132,9 +137,11 @@ ip default-gateway 192.168.10.1
 !
 !
 line con 0
+ login local
 !
 line vty 0 4
  login
+ transport input ssh
 line vty 5 15
  login
 !

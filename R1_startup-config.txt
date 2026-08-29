@@ -33,6 +33,9 @@ no ipv6 cef
 !
 !
 !
+username admin privilege 15 secret 5 $1$mERr$4dpRATIgxQacPVK0CfNV4/
+username backup privilege 15 secret 5 $1$mERr$RchIbJiXmCXFtFBZll50l/
+!
 !
 license udi pid CISCO1941/K9 sn FTX1524V0K3-
 !
@@ -46,6 +49,8 @@ license udi pid CISCO1941/K9 sn FTX1524V0K3-
 !
 !
 !
+ip ssh version 1
+ip domain-name HQ_router
 !
 !
 spanning-tree mode pvst
@@ -122,11 +127,13 @@ ip flow-export version 9
 !
 !
 line con 0
+ login local
 !
 line aux 0
 !
 line vty 0 4
- login
+ login local
+ transport input ssh
 !
 !
 !
