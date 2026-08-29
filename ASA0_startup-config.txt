@@ -1,6 +1,6 @@
 : Saved
-: Written by enable_15 at 00:15:27 UTC Mar 1 1993
-: Call-home enabled from prompt by enable_15 at 00:15:27 UTC Mar 1 1993
+: Written by enable_15 at 01:07:55 UTC Mar 1 1993
+: Call-home enabled from prompt by enable_15 at 01:07:55 UTC Mar 1 1993
 !
 hostname pecshq
 names
@@ -39,6 +39,12 @@ interface Vlan2
  security-level 0
  ip address 203.0.113.2 255.255.255.0
 !
+object network OFFICE_NET
+ subnet 192.168.11.0 255.255.255.0
+ nat (inside,outside) dynamic interface
+object network WEB_SERVER
+ host 192.168.10.21
+ nat (inside,outside) static 203.0.113.2
 !
 route outside 0.0.0.0 0.0.0.0 203.0.113.1 1
 route inside 10.10.0.0 255.255.0.0 10.20.0.2 1
@@ -64,6 +70,10 @@ access-group OUTSIDE-IN in interface outside
 !
 telnet timeout 5
 ssh timeout 5
+!
+dhcpd auto_config outside
+!
+!
 !
 !
 crypto ipsec ikev1 transform-set VPN-SET esp-aes esp-sha-hmac
